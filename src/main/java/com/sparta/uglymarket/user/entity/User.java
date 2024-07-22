@@ -1,7 +1,7 @@
 package com.sparta.uglymarket.user.entity;
 
 import com.sparta.uglymarket.enums.Role;
-import com.sparta.uglymarket.order.entity.OrderHistory;
+import com.sparta.uglymarket.order.entity.Order;
 import com.sparta.uglymarket.review.entity.Review;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -30,7 +30,7 @@ public class User {
     private List<Address> addresses;
 
     @OneToMany(mappedBy = "user")
-    private List<OrderHistory> orderHistories;
+    private List<Order> orders;
 
     @OneToMany(mappedBy = "user")
     private List<Review> reviews;

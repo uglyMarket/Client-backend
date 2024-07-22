@@ -1,7 +1,10 @@
 package com.sparta.uglymarket.product.controller;
 
+import com.sparta.uglymarket.product.dto.GetAllProductsResponse;
+import com.sparta.uglymarket.product.dto.ProductResponse;
 import com.sparta.uglymarket.product.entity.Product;
 import com.sparta.uglymarket.product.service.ProductService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,17 +27,17 @@ public class ProductController {
 
     // 전체 상품 목록 조회
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts() {
-        List<Product> products = productService.getAllProducts();
+    public ResponseEntity<List<GetAllProductsResponse>> getAllProducts() {
+        List<GetAllProductsResponse> products = productService.getAllProducts();
 
-        return ResponseEntity.ok(products);
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     //특정 상품 조회
     @GetMapping("/{productId}")
-    public ResponseEntity<Product> getProductByID(@PathVariable long productId) {
-        Product product = productService.getProductById(productId);
-        return ResponseEntity.ok(product);
+    public ResponseEntity<ProductResponse> getProductByID(@PathVariable long productId) {
+        ProductResponse product = productService.getProductById(productId);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
 }

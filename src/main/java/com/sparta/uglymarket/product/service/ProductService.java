@@ -1,9 +1,14 @@
 package com.sparta.uglymarket.product.service;
 
+import com.sparta.uglymarket.exception.CustomException;
+import com.sparta.uglymarket.exception.ErrorMsg;
+import com.sparta.uglymarket.product.dto.GetAllProductsResponse;
+import com.sparta.uglymarket.product.dto.ProductResponse;
 import com.sparta.uglymarket.product.entity.Product;
 import com.sparta.uglymarket.product.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,14 +23,31 @@ public class ProductService {
 
 
     //전체 상품 조회
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public List<GetAllProductsResponse> getAllProducts() {
+
+        //전체 상품 조회
+        List<Product> products = productRepository.findAll();
+
+        //DTO를 담아줄 리스트
+        List<GetAllProductsResponse> responseList = new ArrayList<>();
+
+        for (Product product : products) { //for 문으로 엔티티를 하나씩 뽑아서
+            GetAllProductsResponse response = new GetAllProductsResponse(product); //DTO로 만들어주고
+
+            responseList.add(response);//리스트에 담아주기
+        }
+        return responseList; //리스트 반환
     }
 
     //특정 상품 조회
-    public Product getProductById(long productId) {
-        return productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("해당 상품이 없습니다."));
+    public ProductResponse getProductById(long productId) {
+
+        //특정 상품 조회
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new CustomException(ErrorMsg.PRODUCT_NOT_FOUND));
+
+        //DTO로 만들어서 반환
+        return new ProductResponse(product);
     }
 
 }

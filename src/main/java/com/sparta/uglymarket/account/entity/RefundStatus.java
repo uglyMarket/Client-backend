@@ -1,6 +1,6 @@
 package com.sparta.uglymarket.account.entity;
 
-import com.sparta.uglymarket.order.entity.OrderHistory;
+import com.sparta.uglymarket.order.entity.Order;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -14,8 +14,8 @@ public class RefundStatus {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_history_id")
-    private OrderHistory orderHistory;
+    @JoinColumn(name = "order_id")
+    private Order order;
 
     @Column(nullable = false)
     private String refundStatus;
