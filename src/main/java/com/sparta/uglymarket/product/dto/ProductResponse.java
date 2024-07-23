@@ -1,7 +1,10 @@
 package com.sparta.uglymarket.product.dto;
 
 import com.sparta.uglymarket.product.entity.Product;
+import com.sparta.uglymarket.review.dto.ReviewResponse;
 import lombok.Getter;
+
+import java.util.List;
 
 @Getter
 public class ProductResponse {
@@ -12,8 +15,9 @@ public class ProductResponse {
     private String deliveryType;
     private String price;
     private boolean isUgly;
+    private List<ReviewResponse> reviews;
 
-    public ProductResponse(Product product) {
+    public ProductResponse(Product product, List<ReviewResponse> reviews) {
         this.id = product.getId();
         this.title = product.getTitle();
         this.content = product.getContent();
@@ -21,5 +25,6 @@ public class ProductResponse {
         this.deliveryType = product.getDeliveryType();
         this.price = product.getPrice();
         this.isUgly = product.isUgly();
+        this.reviews = reviews;
     }
 }

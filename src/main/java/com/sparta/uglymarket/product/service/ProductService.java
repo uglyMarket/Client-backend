@@ -6,11 +6,12 @@ import com.sparta.uglymarket.product.dto.GetAllProductsResponse;
 import com.sparta.uglymarket.product.dto.ProductResponse;
 import com.sparta.uglymarket.product.entity.Product;
 import com.sparta.uglymarket.product.repository.ProductRepository;
+import com.sparta.uglymarket.review.dto.ReviewResponse;
+import com.sparta.uglymarket.review.entity.Review;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -46,8 +47,14 @@ public class ProductService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new CustomException(ErrorMsg.PRODUCT_NOT_FOUND));
 
+        //상품에 달려있는 리뷰들 조회하기
+        List<ReviewResponse> reviews = new ArrayList<>();
+        for (Review review : product.getReviews()) {
+            reviews.add(new ReviewResponse(review));
+        }
+
         //DTO로 만들어서 반환
-        return new ProductResponse(product);
+        return new ProductResponse(product, reviews);
     }
 
 }

@@ -2,7 +2,6 @@ package com.sparta.uglymarket.product.controller;
 
 import com.sparta.uglymarket.product.dto.GetAllProductsResponse;
 import com.sparta.uglymarket.product.dto.ProductResponse;
-import com.sparta.uglymarket.product.entity.Product;
 import com.sparta.uglymarket.product.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +28,6 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<List<GetAllProductsResponse>> getAllProducts() {
         List<GetAllProductsResponse> products = productService.getAllProducts();
-
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 

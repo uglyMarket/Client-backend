@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-public class Order {
+public class Orders {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,10 +30,11 @@ public class Order {
     private LocalDateTime orderDate;
 
 
-    public Order() {
+
+    public Orders() {
     }
 
-    public Order(User user, Product product, OrderRequest request) {
+    public Orders(User user, Product product, OrderRequest request) {
         this.user = user;
         this.product = product;
         this.orderStatus = request.getOrderStatus();

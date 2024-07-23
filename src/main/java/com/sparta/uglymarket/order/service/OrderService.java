@@ -4,7 +4,7 @@ import com.sparta.uglymarket.exception.CustomException;
 import com.sparta.uglymarket.exception.ErrorMsg;
 import com.sparta.uglymarket.order.dto.OrderRequest;
 import com.sparta.uglymarket.order.dto.OrderResponse;
-import com.sparta.uglymarket.order.entity.Order;
+import com.sparta.uglymarket.order.entity.Orders;
 import com.sparta.uglymarket.order.repository.OrderRepository;
 import com.sparta.uglymarket.product.entity.Product;
 import com.sparta.uglymarket.product.repository.ProductRepository;
@@ -37,13 +37,13 @@ public class OrderService {
                 .orElseThrow(() -> new CustomException(ErrorMsg.PRODUCT_NOT_FOUND));
 
         //주문 객체 생성
-        Order order = new Order(user, product, request);
+        Orders orders = new Orders(user, product, request);
 
         //주문 저장
-        Order savedOrder = orderRepository.save(order);
+        Orders savedOrders = orderRepository.save(orders);
 
         //주문 객체 -> DTO로 생성해서 반환
-        return new OrderResponse(savedOrder);
+        return new OrderResponse(savedOrders);
 
     }
 

@@ -1,6 +1,7 @@
 package com.sparta.uglymarket.review.entity;
 
-import com.sparta.uglymarket.order.entity.Order;
+import com.sparta.uglymarket.order.entity.Orders;
+import com.sparta.uglymarket.product.entity.Product;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -12,11 +13,14 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
-    private Order order;
-
-    private String review;
+    private String content;
     private String reviewImage;
+    
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+
 
 }

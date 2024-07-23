@@ -1,6 +1,6 @@
 package com.sparta.uglymarket.order.dto;
 
-import com.sparta.uglymarket.order.entity.Order;
+import com.sparta.uglymarket.order.entity.Orders;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -16,14 +16,14 @@ public class OrderResponse {
     private int quantity;
     private LocalDateTime orderDate;
 
-    public OrderResponse(Order savedOrder) {
-        this.orderId = savedOrder.getId();
-        this.userId = savedOrder.getUser().getId();
-        this.usernickname = savedOrder.getUser().getNickname();
-        this.productId = savedOrder.getProduct().getId();
-        this.productTitle = savedOrder.getProduct().getTitle();
-        this.orderStatus = savedOrder.getOrderStatus();
-        this.quantity = savedOrder.getQuantity();
-        this.orderDate = savedOrder.getOrderDate();
+    public OrderResponse(Orders savedOrders) {
+        this.orderId = savedOrders.getId();
+        this.userId = savedOrders.getUser().getId();
+        this.usernickname = savedOrders.getUser().getNickname();
+        this.productId = savedOrders.getProduct().getId();
+        this.productTitle = savedOrders.getProduct().getTitle();
+        this.orderStatus = savedOrders.getOrderStatus();
+        this.quantity = savedOrders.getQuantity();
+        this.orderDate = savedOrders.getOrderDate();
     }
 }
