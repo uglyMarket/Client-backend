@@ -1,7 +1,10 @@
 package com.sparta.uglymarket.product.entity;
 
+import com.sparta.uglymarket.review.entity.Review;
 import jakarta.persistence.*;
 import lombok.Getter;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,5 +22,9 @@ public class Product {
 
     @Column(nullable = false) // isUgly 필드는 nullable = false 추가
     private boolean isUgly;
+
+    @OneToMany(mappedBy = "product")
+    private List<Review> reviews;
+
 
 }
