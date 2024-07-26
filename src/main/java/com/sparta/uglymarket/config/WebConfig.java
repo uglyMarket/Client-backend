@@ -20,7 +20,10 @@ public class WebConfig {
     public FilterRegistrationBean<JwtAuthenticationFilter> jwtAuthenticationFilterRegistration() {
         FilterRegistrationBean<JwtAuthenticationFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(jwtAuthenticationFilter); // 필터 설정
-        registrationBean.addUrlPatterns("/api/*"); // 보호할 URL 패턴 설정
+        registrationBean.addUrlPatterns("/api/reviews"); // 보호할 URL 패턴 설정
+        registrationBean.addUrlPatterns("/api/reviews/delete/*"); // 보호할 URL 패턴 설정
+        registrationBean.addUrlPatterns("/api/orders/*"); // 보호할 URL 패턴 설정
+        registrationBean.setOrder(1); // 필터의 순서를 설정
         return registrationBean; // 필터 등록 빈 반환
     }
 
