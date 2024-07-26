@@ -12,6 +12,7 @@ public enum ErrorMsg {
 
     /* 400 BAD_REQUEST : 잘못된 요청 */
     IMAGE_INVALID(BAD_REQUEST,"이미지가 잘못 되었습니다."),
+    PHONE_NUMBER_INVALID(BAD_REQUEST, "핸드폰번호를 잘못 입력했습니다."),
     PASSWORD_INCORRECT(BAD_REQUEST,"비밀번호가 옳지 않습니다."),
 
 
@@ -29,11 +30,17 @@ public enum ErrorMsg {
     /* 404 NOT_FOUND : Resource 를 찾을 수 없음 */
     USER_NOT_FOUND(NOT_FOUND, "사용자가 존재하지 않습니다."),
     PRODUCT_NOT_FOUND(NOT_FOUND, "제품을 찾을 수 없습니다."),
+    ORDER_NOT_FOUND(NOT_FOUND, "주문을 찾을 수 없습니다."),
+    REVIEW_NOT_FOUND(NOT_FOUND, "후기를 찾을 수 없습니다."),
+    PHONE_NUMBER_NOT_FOUND(NOT_FOUND, "가입되지 않은 번호입니다."),
+
 
 
     /* 409 CONFLICT : Resource 의 현재 상태와 충돌. 보통 중복된 데이터 존재 */
     DUPLICATE_USER(CONFLICT,"이미 가입된 사용자입니다."),
     DUPLICATE_EMAIL(CONFLICT,"중복된 이메일입니다."),
+    DUPLICATE_PHONE_NUMBER(CONFLICT,"중복된 핸드폰 번호입니다."),
+
 
 
     /* 500 INTERNAL SERVER ERROR : 그 외 서버 에러 (컴파일 관련) */
