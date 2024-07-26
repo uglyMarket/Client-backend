@@ -2,6 +2,7 @@ package com.sparta.uglymarket.review.controller;
 
 import com.sparta.uglymarket.review.dto.*;
 import com.sparta.uglymarket.review.service.ReviewService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/reviews")
+@RequestMapping("/api/reviews")
 public class ReviewController {
 
     private final ReviewService reviewService;
@@ -21,15 +22,25 @@ public class ReviewController {
 
     // 후기 등록
     @PostMapping
-    public ResponseEntity<ReviewCreateResponse> createReview(@RequestBody ReviewCreateRequest request) {
-        ReviewCreateResponse response = reviewService.createReview(request);
+    public ResponseEntity<ReviewCreateResponse> createReview(@RequestBody ReviewCreateRequest request, HttpServletRequest httpRequest) {
+        String phoneNumber = (String) httpRequest.getAttribute("phoneNumber");
+        if (phoneNumber == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        ReviewCreateResponse response = reviewService.createReview(request, phoneNumber);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     //후기 삭제
-    @DeleteMapping("/{reviewId}")
-    public ResponseEntity<ReviewDeleteResponse> deleteReview(@PathVariable Long reviewId) {
-        reviewService.deleteReview(reviewId);
+    @DeleteMapping("/delete/{reviewId}")
+    public ResponseEntity<ReviewDeleteResponse> deleteReview(@PathVariable Long reviewId, HttpServletRequest httpRequest) {
+        String phoneNumber = (String) httpRequest.getAttribute("phoneNumber");
+        if (phoneNumber == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+
+        reviewService.deleteReview(reviewId, phoneNumber);
         return new ResponseEntity<>(new ReviewDeleteResponse(reviewId), HttpStatus.NO_CONTENT);
     }
 
