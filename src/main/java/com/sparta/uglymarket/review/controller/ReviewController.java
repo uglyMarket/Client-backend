@@ -2,6 +2,7 @@ package com.sparta.uglymarket.review.controller;
 
 import com.sparta.uglymarket.review.dto.*;
 import com.sparta.uglymarket.review.service.ReviewService;
+import com.sparta.uglymarket.util.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +15,18 @@ import java.util.List;
 public class ReviewController {
 
     private final ReviewService reviewService;
+    private final TokenService tokenService;
 
-    public ReviewController(ReviewService reviewService) {
+    public ReviewController(ReviewService reviewService, TokenService tokenService) {
         this.reviewService = reviewService;
+        this.tokenService = tokenService;
     }
 
 
     // 후기 등록
     @PostMapping
     public ResponseEntity<ReviewCreateResponse> createReview(@RequestBody ReviewCreateRequest request, HttpServletRequest httpRequest) {
-        String phoneNumber = (String) httpRequest.getAttribute("phoneNumber");
+        String phoneNumber = tokenService.getPhoneNumberFromRequest(httpRequest);//헤더에서 폰번호 찾기
         if (phoneNumber == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
@@ -35,7 +38,7 @@ public class ReviewController {
     //후기 삭제
     @DeleteMapping("/delete/{reviewId}")
     public ResponseEntity<ReviewDeleteResponse> deleteReview(@PathVariable Long reviewId, HttpServletRequest httpRequest) {
-        String phoneNumber = (String) httpRequest.getAttribute("phoneNumber");
+        String phoneNumber = tokenService.getPhoneNumberFromRequest(httpRequest);
         if (phoneNumber == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }

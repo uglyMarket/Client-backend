@@ -9,6 +9,7 @@ import com.sparta.uglymarket.product.repository.ProductRepository;
 import com.sparta.uglymarket.review.dto.*;
 import com.sparta.uglymarket.review.entity.Review;
 import com.sparta.uglymarket.review.repository.ReviewRepository;
+import com.sparta.uglymarket.review.service.validator.ReviewValidator;
 import com.sparta.uglymarket.user.entity.User;
 import com.sparta.uglymarket.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -23,12 +24,15 @@ public class ReviewService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final ReviewValidator reviewValidator;
 
-    public ReviewService(ReviewRepository reviewRepository, OrderRepository orderRepository, ProductRepository productRepository, UserRepository userRepository) {
+    public ReviewService(ReviewRepository reviewRepository, OrderRepository orderRepository, ProductRepository productRepository, UserRepository userRepository, ReviewValidator reviewValidator) {
         this.reviewRepository = reviewRepository;
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.userRepository = userRepository;
+        this.reviewValidator = reviewValidator;
+
     }
 
 
@@ -43,13 +47,13 @@ public class ReviewService {
         Orders orders = orderRepository.findById(request.getOrderId())
                 .orElseThrow(() -> new CustomException(ErrorMsg.ORDER_NOT_FOUND));
 
-        if (!orders.getUser().getId().equals(user.getId())) {
-            throw new CustomException(ErrorMsg.UNAUTHORIZED_MEMBER);
-        }
-
         // 상품 찾기
         Product product = productRepository.findById(request.getProductId())
                 .orElseThrow(() -> new CustomException(ErrorMsg.PRODUCT_NOT_FOUND));
+
+
+        //검증 로직 사용 (주문의 유저아이디와, 토큰에서 가져온 유저의 아이디가 같은지 검증)
+        reviewValidator.validate(orders, user);
 
         // 후기 생성
         Review review = new Review(request, orders, product);
@@ -70,9 +74,8 @@ public class ReviewService {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new CustomException(ErrorMsg.REVIEW_NOT_FOUND));
 
-        if (!review.getOrders().getUser().getId().equals(user.getId())) {
-            throw new CustomException(ErrorMsg.UNAUTHORIZED_MEMBER);
-        }
+        //검증 로직 호출 (리뷰의 유저 아이디와, 토큰에서 가져온 유저 아이디가 같은지 검증)
+        reviewValidator.validateDeleteReview(user, review);
 
         Orders order = review.getOrders();
         order.unmarkAsReviewed(); // 리뷰 삭제 시 주문의 reviewed 필드를 false로 설정
