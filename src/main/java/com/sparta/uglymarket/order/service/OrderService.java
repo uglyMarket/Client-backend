@@ -24,14 +24,12 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
-    private final JwtUtil jwtUtil;
 
 
-    public OrderService(OrderRepository orderRepository, UserRepository userRepository, ProductRepository productRepository, JwtUtil jwtUtil) {
+    public OrderService(OrderRepository orderRepository, UserRepository userRepository, ProductRepository productRepository) {
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
         this.productRepository = productRepository;
-        this.jwtUtil = jwtUtil;
     }
 
 
