@@ -7,7 +7,9 @@ import com.sparta.uglymarket.review.dto.ReviewCreateRequest;
 import com.sparta.uglymarket.review.entity.Review;
 import com.sparta.uglymarket.review.service.validator.ReviewValidator;
 import com.sparta.uglymarket.user.entity.User;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DefaultReviewValidator implements ReviewValidator {
 
     //주문의 유저아이디와, 토큰에서 가져온 유저의 아이디가 같은지 검증
