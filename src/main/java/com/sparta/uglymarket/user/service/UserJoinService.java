@@ -15,19 +15,18 @@ public class UserJoinService {
 
     private final UserRepository userRepository;
     private final PasswordEncoderUtil passwordEncoderUtil;
+    private final PhoneNumberValidatorService phoneNumberValidatorService;
 
-    public UserJoinService(UserRepository userRepository, PasswordEncoderUtil passwordEncoderUtil) {
+    public UserJoinService(UserRepository userRepository, PasswordEncoderUtil passwordEncoderUtil, PhoneNumberValidatorService phoneNumberValidatorService) {
         this.userRepository = userRepository;
         this.passwordEncoderUtil = passwordEncoderUtil;
+        this.phoneNumberValidatorService = phoneNumberValidatorService;
     }
-
     //회원가입 메서드
     public JoinResponse JoinUser(JoinRequest request) {
 
         // 전화번호 중복인지 확인
-        if (userRepository.existsByPhoneNumber(request.getPhoneNumber())) {
-            throw new CustomException(ErrorMsg.DUPLICATE_PHONE_NUMBER);
-        }
+        phoneNumberValidatorService.validatePhoneNumber(request.getPhoneNumber());
 
         // 비밀번호 인코딩
         String encodedPassword = passwordEncoderUtil.encodePassword(request.getPassword());
