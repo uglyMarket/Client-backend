@@ -5,7 +5,7 @@ import com.sparta.uglymarket.user.dto.JoinResponse;
 import com.sparta.uglymarket.user.dto.LoginRequest;
 import com.sparta.uglymarket.user.dto.LoginResponse;
 import com.sparta.uglymarket.user.service.UserJoinService;
-import com.sparta.uglymarket.user.service.UserService;
+import com.sparta.uglymarket.user.service.UserLoginService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private final UserJoinService userJoinService;
-    private final UserService userService;
+    private final UserLoginService userLoginService;
 
-    public UserController(UserService userService, UserJoinService userJoinService) {
-        this.userService = userService;
+    public UserController(UserLoginService userLoginService, UserJoinService userJoinService) {
+        this.userLoginService = userLoginService;
         this.userJoinService = userJoinService;
     }
 
@@ -37,7 +37,7 @@ public class UserController {
     //로그인 컨트롤러
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
-        LoginResponse response = userService.loginUser(request);
+        LoginResponse response = userLoginService.loginUser(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
