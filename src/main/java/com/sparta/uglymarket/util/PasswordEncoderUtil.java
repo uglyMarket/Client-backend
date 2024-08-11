@@ -1,5 +1,7 @@
 package com.sparta.uglymarket.util;
 
+import com.sparta.uglymarket.exception.CustomException;
+import com.sparta.uglymarket.exception.ErrorMsg;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -19,7 +21,9 @@ public class PasswordEncoderUtil {
     }
 
     //입력된 비번과 인코딩된 비번이 같은지 검사
-    public boolean matches(String rawPassword, String encodedPassword) {
-        return passwordEncoder.matches(rawPassword, encodedPassword);
+    public void validatePassword(String rawPassword, String encodedPassword) {
+        if (!passwordEncoder.matches(rawPassword, encodedPassword)) {
+            throw new CustomException(ErrorMsg.PASSWORD_INCORRECT);
+        }
     }
 }
