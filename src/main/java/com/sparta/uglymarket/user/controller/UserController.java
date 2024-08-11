@@ -4,6 +4,7 @@ import com.sparta.uglymarket.user.dto.JoinRequest;
 import com.sparta.uglymarket.user.dto.JoinResponse;
 import com.sparta.uglymarket.user.dto.LoginRequest;
 import com.sparta.uglymarket.user.dto.LoginResponse;
+import com.sparta.uglymarket.user.service.UserJoinService;
 import com.sparta.uglymarket.user.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -17,17 +18,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/users")
 public class UserController {
 
+    private final UserJoinService userJoinService;
     private final UserService userService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserJoinService userJoinService) {
         this.userService = userService;
+        this.userJoinService = userJoinService;
     }
 
 
     //회원가입 컨트롤러
     @PostMapping("/join")
     public ResponseEntity<JoinResponse> join(@RequestBody JoinRequest request) {
-        JoinResponse response = userService.joinUser(request);
+        JoinResponse response = userJoinService.JoinUser(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 

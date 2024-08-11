@@ -31,27 +31,6 @@ public class UserService {
     }
 
 
-    //회원가입 메서드
-    public JoinResponse joinUser(JoinRequest request) {
-        // 전화번호 중복인지 확인
-        if (userRepository.existsByPhoneNumber(request.getPhoneNumber())) {
-            throw new CustomException(ErrorMsg.DUPLICATE_PHONE_NUMBER);
-        }
-
-        // 비밀번호 인코딩
-        String encodedPassword = passwordEncoder.encode(request.getPassword());
-
-        // Role을 설정
-        Role role = Role.valueOf(request.getRole());
-
-        // User 엔티티를 생성하고 저장
-        User user = new User(request, encodedPassword, role);
-        User savedUser = userRepository.save(user);
-
-        // UserResponseDTO로 변환하여 반환
-        return new JoinResponse(savedUser);
-    }
-
     //로그인 메서드
     public LoginResponse loginUser(LoginRequest request) {
         //전화번호(아이디) 확인
