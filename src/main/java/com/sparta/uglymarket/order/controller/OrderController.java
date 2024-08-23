@@ -5,6 +5,7 @@ import com.sparta.uglymarket.order.dto.OrderRequest;
 import com.sparta.uglymarket.order.dto.OrderResponse;
 import com.sparta.uglymarket.order.dto.PendingReviewOrderResponse;
 import com.sparta.uglymarket.order.dto.WrittenReviewOrderResponse;
+import com.sparta.uglymarket.order.service.OrderReviewService;
 import com.sparta.uglymarket.order.service.OrderService;
 import com.sparta.uglymarket.util.JwtUtil;
 import com.sparta.uglymarket.util.TokenService;
@@ -21,10 +22,12 @@ public class OrderController {
 
     private final OrderService orderService;
     private final TokenService tokenService;
+    private final OrderReviewService orderReviewService;
 
-    public OrderController(OrderService orderService, TokenService tokenService) {
+    public OrderController(OrderService orderService, TokenService tokenService, OrderReviewService orderReviewService) {
         this.orderService = orderService;
         this.tokenService = tokenService;
+        this.orderReviewService = orderReviewService;
     }
 
 
@@ -42,7 +45,7 @@ public class OrderController {
     public ResponseEntity<List<PendingReviewOrderResponse>> getPendingReviewOrdersByUser(HttpServletRequest httpRequest) {
         String phoneNumber = tokenService.getPhoneNumberFromRequest(httpRequest);//헤더에서 폰번호 찾기
 
-        List<PendingReviewOrderResponse> orders = orderService.getPendingReviewOrdersByUserId(phoneNumber);
+        List<PendingReviewOrderResponse> orders = orderReviewService.getPendingReviewOrdersByUserId(phoneNumber);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
@@ -51,7 +54,7 @@ public class OrderController {
     public ResponseEntity<List<WrittenReviewOrderResponse>> getWrittenReviewOrdersByUser(HttpServletRequest httpRequest) {
         String phoneNumber = tokenService.getPhoneNumberFromRequest(httpRequest);//헤더에서 폰번호 찾기
 
-        List<WrittenReviewOrderResponse> orders = orderService.getWrittenReviewOrdersByUserId(phoneNumber);
+        List<WrittenReviewOrderResponse> orders = orderReviewService.getWrittenReviewOrdersByUserId(phoneNumber);
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
