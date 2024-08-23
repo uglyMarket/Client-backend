@@ -7,11 +7,13 @@ import com.sparta.uglymarket.order.dto.PendingReviewOrderResponse;
 import com.sparta.uglymarket.order.dto.WrittenReviewOrderResponse;
 import com.sparta.uglymarket.order.entity.Orders;
 import com.sparta.uglymarket.order.repository.OrderRepository;
+import com.sparta.uglymarket.order.service.OrderReviewService;
 import com.sparta.uglymarket.order.service.OrderService;
 import com.sparta.uglymarket.product.entity.Product;
 import com.sparta.uglymarket.product.repository.ProductRepository;
 import com.sparta.uglymarket.user.entity.User;
 import com.sparta.uglymarket.user.repository.UserRepository;
+import com.sparta.uglymarket.util.UserFinder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -38,15 +40,22 @@ class OrderServiceTest {
     private UserRepository userRepository;
 
     @Mock
+    private UserFinder userFinder;
+
+    @Mock
     private ProductRepository productRepository;
 
     @InjectMocks
     private OrderService orderService;
 
+    @InjectMocks
+    private OrderReviewService orderReviewService;
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        orderService = new OrderService(orderRepository, userRepository, productRepository);
+        orderService = new OrderService(orderRepository, userFinder, productRepository);
+        orderReviewService = new OrderReviewService(orderRepository, userFinder);
     }
 
     // 주문 생성 테스트
@@ -68,7 +77,7 @@ class OrderServiceTest {
         Orders order = new Orders(user, product, request);
 
         //목객체 설정
-        given(userRepository.findByPhoneNumber(phoneNumber)).willReturn(Optional.of(user));
+        given(userFinder.findUserByPhoneNumber(phoneNumber)).willReturn(user);
         given(productRepository.findById(request.getProductId())).willReturn(Optional.of(product));
         given(orderRepository.save(any(Orders.class))).willReturn(order);
 
@@ -121,11 +130,11 @@ class OrderServiceTest {
         List<Orders> orders = Arrays.asList(order1, order2);
 
         // 목객체 설정
-        given(userRepository.findByPhoneNumber(phoneNumber)).willReturn(Optional.of(user));
+        given(userFinder.findUserByPhoneNumber(phoneNumber)).willReturn(user);
         given(orderRepository.findAllByUserIdAndReviewedFalse(user.getId())).willReturn(orders);
 
         // when (검증하고 싶은 서비스 실행)
-        List<PendingReviewOrderResponse> responses = orderService.getPendingReviewOrdersByUserId(phoneNumber);
+        List<PendingReviewOrderResponse> responses = orderReviewService.getPendingReviewOrdersByUserId(phoneNumber);
 
         // then (리스트 검증)
         assertNotNull(responses);
@@ -177,11 +186,11 @@ class OrderServiceTest {
         List<Orders> orders = Arrays.asList(order1, order2);
 
         // 목 객체 설정
-        given(userRepository.findByPhoneNumber(phoneNumber)).willReturn(Optional.of(user));
+        given(userFinder.findUserByPhoneNumber(phoneNumber)).willReturn(user);
         given(orderRepository.findAllByUserIdAndReviewedTrue(user.getId())).willReturn(orders);
 
         // when (검증하고 싶은 서비스 실행)
-        List<WrittenReviewOrderResponse> responses = orderService.getWrittenReviewOrdersByUserId(phoneNumber);
+        List<WrittenReviewOrderResponse> responses = orderReviewService.getWrittenReviewOrdersByUserId(phoneNumber);
 
         // then (리스트 검증)
         assertNotNull(responses);
