@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.Map;
 import java.util.TreeMap;
 
+@RestController
 public class HealthCheckController {
 
     @Value(value="${server.env}")
