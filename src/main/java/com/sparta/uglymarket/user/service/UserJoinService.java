@@ -1,8 +1,6 @@
 package com.sparta.uglymarket.user.service;
 
 import com.sparta.uglymarket.enums.Role;
-import com.sparta.uglymarket.exception.CustomException;
-import com.sparta.uglymarket.exception.ErrorMsg;
 import com.sparta.uglymarket.user.dto.JoinRequest;
 import com.sparta.uglymarket.user.dto.JoinResponse;
 import com.sparta.uglymarket.user.entity.User;
