@@ -1,5 +1,6 @@
 package com.sparta.uglymarket.user.entity;
 
+import com.sparta.uglymarket.address.entity.Address;
 import com.sparta.uglymarket.enums.Role;
 import com.sparta.uglymarket.order.entity.Orders;
 import com.sparta.uglymarket.user.dto.JoinRequest;
