@@ -28,32 +28,34 @@ public class ProductService {
 
         //전체 상품 조회
         List<Product> products = productRepository.findAll();
-
-        //DTO를 담아줄 리스트
-        List<GetAllProductsResponse> responseList = new ArrayList<>();
-
-        for (Product product : products) { //for 문으로 엔티티를 하나씩 뽑아서
-            GetAllProductsResponse response = new GetAllProductsResponse(product); //DTO로 만들어주고
-
-            responseList.add(response);//리스트에 담아주기
-        }
-        return responseList; //리스트 반환
+        return convertToGetAllProductsResponseList(products);
     }
 
-    //특정 상품 조회
+    //특정 상품 세부조회
     public ProductResponse getProductById(long productId) {
 
         //특정 상품 조회
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new CustomException(ErrorMsg.PRODUCT_NOT_FOUND));
 
-        //상품에 달려있는 리뷰들 조회하기
+        return convertToProductResponse(product);
+    }
+
+    //DTO 변환 메서드
+    private List<GetAllProductsResponse> convertToGetAllProductsResponseList(List<Product> products) {
+        List<GetAllProductsResponse> responseList = new ArrayList<>();
+        for (Product product : products) {
+            responseList.add(new GetAllProductsResponse(product));
+        }
+        return responseList;
+    }
+
+    ///DTO 변환 메서드, 상품에 달려있는 리뷰들 조회
+    private ProductResponse convertToProductResponse(Product product) {
         List<ReviewResponse> reviews = new ArrayList<>();
-        for (Review review : product.getReviews()) {
+        for (var review : product.getReviews()) {
             reviews.add(new ReviewResponse(review));
         }
-
-        //DTO로 만들어서 반환
         return new ProductResponse(product, reviews);
     }
 
