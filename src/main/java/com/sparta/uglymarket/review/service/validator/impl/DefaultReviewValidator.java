@@ -1,4 +1,4 @@
-package com.sparta.uglymarket.review.service.impl;
+package com.sparta.uglymarket.review.service.validator.impl;
 
 import com.sparta.uglymarket.exception.CustomException;
 import com.sparta.uglymarket.exception.ErrorMsg;
