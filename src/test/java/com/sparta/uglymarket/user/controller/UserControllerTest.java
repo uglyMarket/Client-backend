@@ -41,7 +41,7 @@ class UserControllerTest {
     private JwtUtil jwtUtil;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private ObjectMapper objectMapper; //JOSN 직렬화, 역직렬화
 
     @Test
     @DisplayName("회원가입 컨트롤러 테스트")
