@@ -1,14 +1,11 @@
 package com.sparta.uglymarket.order.service;
 
-import com.sparta.uglymarket.exception.CustomException;
-import com.sparta.uglymarket.exception.ErrorMsg;
 import com.sparta.uglymarket.order.dto.PendingReviewOrderResponse;
 import com.sparta.uglymarket.order.dto.WrittenReviewOrderResponse;
 import com.sparta.uglymarket.order.entity.Orders;
 import com.sparta.uglymarket.order.repository.OrderRepository;
 import com.sparta.uglymarket.user.entity.User;
-import com.sparta.uglymarket.user.repository.UserRepository;
-import com.sparta.uglymarket.util.UserFinder;
+import com.sparta.uglymarket.util.FinderService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,11 +15,11 @@ import java.util.List;
 public class OrderReviewService {
 
     private final OrderRepository orderRepository;
-    private final UserFinder userFinder;
+    private final FinderService finderService;
 
-    public OrderReviewService(OrderRepository orderRepository, UserFinder userFinder) {
+    public OrderReviewService(OrderRepository orderRepository, FinderService finderService) {
         this.orderRepository = orderRepository;
-        this.userFinder = userFinder;
+        this.finderService = finderService;
     }
 
 
@@ -30,7 +27,7 @@ public class OrderReviewService {
     public List<PendingReviewOrderResponse> getPendingReviewOrdersByUserId(String phoneNumber) {
 
         // 유저 찾기
-        User user = userFinder.findUserByPhoneNumber(phoneNumber);
+        User user = finderService.findUserByPhoneNumber(phoneNumber);
 
         // 후기가 작성되지 않은 주문 전체 조회
         List<Orders> orders = orderRepository.findAllByUserIdAndReviewedFalse(user.getId());
@@ -47,7 +44,7 @@ public class OrderReviewService {
     public List<WrittenReviewOrderResponse> getWrittenReviewOrdersByUserId(String phoneNumber) {
 
         // 유저 찾기
-        User user = userFinder.findUserByPhoneNumber(phoneNumber);
+        User user = finderService.findUserByPhoneNumber(phoneNumber);
 
         // 후기가 작성된 주문 전체 조회
         List<Orders> orders = orderRepository.findAllByUserIdAndReviewedTrue(user.getId());

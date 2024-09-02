@@ -5,19 +5,19 @@ import com.sparta.uglymarket.user.dto.LoginResponse;
 import com.sparta.uglymarket.user.entity.User;
 import com.sparta.uglymarket.util.JwtUtil;
 import com.sparta.uglymarket.util.PasswordEncoderUtil;
-import com.sparta.uglymarket.util.UserFinder;
+import com.sparta.uglymarket.util.FinderService;
 import org.springframework.stereotype.Service;
 
 
 @Service
 public class UserLoginService {
 
-    private final UserFinder userFinder;
+    private final FinderService finderService;
     private final PasswordEncoderUtil passwordEncoderUtil;
     private final JwtUtil jwtUtil;
 
-    public UserLoginService(UserFinder userFinder, PasswordEncoderUtil passwordEncoderUtil, JwtUtil jwtUtil) {
-        this.userFinder = userFinder;
+    public UserLoginService(FinderService finderService, PasswordEncoderUtil passwordEncoderUtil, JwtUtil jwtUtil) {
+        this.finderService = finderService;
         this.passwordEncoderUtil = passwordEncoderUtil;
         this.jwtUtil = jwtUtil;
     }
@@ -26,7 +26,7 @@ public class UserLoginService {
     //로그인 메서드
     public LoginResponse loginUser(LoginRequest request) {
         //전화번호(아이디) 확인
-        User user = userFinder.findUserByPhoneNumber(request.getPhoneNumber());
+        User user = finderService.findUserByPhoneNumber(request.getPhoneNumber());
 
         //비밀번호 확인
         passwordEncoderUtil.validatePassword(request.getPassword(), user.getPassword());

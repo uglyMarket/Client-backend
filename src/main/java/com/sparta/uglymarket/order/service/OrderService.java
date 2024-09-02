@@ -4,32 +4,25 @@ import com.sparta.uglymarket.exception.CustomException;
 import com.sparta.uglymarket.exception.ErrorMsg;
 import com.sparta.uglymarket.order.dto.OrderRequest;
 import com.sparta.uglymarket.order.dto.OrderResponse;
-import com.sparta.uglymarket.order.dto.PendingReviewOrderResponse;
-import com.sparta.uglymarket.order.dto.WrittenReviewOrderResponse;
 import com.sparta.uglymarket.order.entity.Orders;
 import com.sparta.uglymarket.order.repository.OrderRepository;
 import com.sparta.uglymarket.product.entity.Product;
 import com.sparta.uglymarket.product.repository.ProductRepository;
 import com.sparta.uglymarket.user.entity.User;
-import com.sparta.uglymarket.user.repository.UserRepository;
-import com.sparta.uglymarket.util.JwtUtil;
-import com.sparta.uglymarket.util.UserFinder;
+import com.sparta.uglymarket.util.FinderService;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final UserFinder userFinder;
+    private final FinderService finderService;
     private final ProductRepository productRepository;
 
 
-    public OrderService(OrderRepository orderRepository, UserFinder userFinder, ProductRepository productRepository) {
+    public OrderService(OrderRepository orderRepository, FinderService finderService, ProductRepository productRepository) {
         this.orderRepository = orderRepository;
-        this.userFinder = userFinder;
+        this.finderService = finderService;
         this.productRepository = productRepository;
     }
 
@@ -38,7 +31,7 @@ public class OrderService {
     public OrderResponse createOrder(OrderRequest request, String phoneNumber) {
 
         //주문한 유저 찾기
-        User user = userFinder.findUserByPhoneNumber(phoneNumber);
+        User user = finderService.findUserByPhoneNumber(phoneNumber);
 
 
         //주문상품 찾기
