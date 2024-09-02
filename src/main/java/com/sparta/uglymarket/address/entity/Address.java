@@ -1,5 +1,6 @@
-package com.sparta.uglymarket.user.entity;
+package com.sparta.uglymarket.address.entity;
 
+import com.sparta.uglymarket.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 
