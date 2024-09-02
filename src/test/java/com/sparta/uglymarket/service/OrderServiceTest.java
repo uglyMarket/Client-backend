@@ -1,6 +1,5 @@
 package com.sparta.uglymarket.service;
 
-import com.sparta.uglymarket.exception.CustomException;
 import com.sparta.uglymarket.order.dto.OrderRequest;
 import com.sparta.uglymarket.order.dto.OrderResponse;
 import com.sparta.uglymarket.order.dto.PendingReviewOrderResponse;
@@ -13,15 +12,13 @@ import com.sparta.uglymarket.product.entity.Product;
 import com.sparta.uglymarket.product.repository.ProductRepository;
 import com.sparta.uglymarket.user.entity.User;
 import com.sparta.uglymarket.user.repository.UserRepository;
-import com.sparta.uglymarket.util.UserFinder;
+import com.sparta.uglymarket.util.FinderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +37,7 @@ class OrderServiceTest {
     private UserRepository userRepository;
 
     @Mock
-    private UserFinder userFinder;
+    private FinderService finderService;
 
     @Mock
     private ProductRepository productRepository;
@@ -54,8 +51,8 @@ class OrderServiceTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        orderService = new OrderService(orderRepository, userFinder, productRepository);
-        orderReviewService = new OrderReviewService(orderRepository, userFinder);
+        orderService = new OrderService(orderRepository, finderService, productRepository);
+        orderReviewService = new OrderReviewService(orderRepository, finderService);
     }
 
     // 주문 생성 테스트
@@ -77,7 +74,7 @@ class OrderServiceTest {
         Orders order = new Orders(user, product, request);
 
         //목객체 설정
-        given(userFinder.findUserByPhoneNumber(phoneNumber)).willReturn(user);
+        given(finderService.findUserByPhoneNumber(phoneNumber)).willReturn(user);
         given(productRepository.findById(request.getProductId())).willReturn(Optional.of(product));
         given(orderRepository.save(any(Orders.class))).willReturn(order);
 
@@ -130,7 +127,7 @@ class OrderServiceTest {
         List<Orders> orders = Arrays.asList(order1, order2);
 
         // 목객체 설정
-        given(userFinder.findUserByPhoneNumber(phoneNumber)).willReturn(user);
+        given(finderService.findUserByPhoneNumber(phoneNumber)).willReturn(user);
         given(orderRepository.findAllByUserIdAndReviewedFalse(user.getId())).willReturn(orders);
 
         // when (검증하고 싶은 서비스 실행)
@@ -186,7 +183,7 @@ class OrderServiceTest {
         List<Orders> orders = Arrays.asList(order1, order2);
 
         // 목 객체 설정
-        given(userFinder.findUserByPhoneNumber(phoneNumber)).willReturn(user);
+        given(finderService.findUserByPhoneNumber(phoneNumber)).willReturn(user);
         given(orderRepository.findAllByUserIdAndReviewedTrue(user.getId())).willReturn(orders);
 
         // when (검증하고 싶은 서비스 실행)
