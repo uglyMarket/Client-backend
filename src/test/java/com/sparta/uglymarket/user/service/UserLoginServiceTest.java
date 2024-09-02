@@ -1,11 +1,10 @@
-package com.sparta.uglymarket.service;
+package com.sparta.uglymarket.user.service;
 
 import com.sparta.uglymarket.exception.CustomException;
 import com.sparta.uglymarket.exception.ErrorMsg;
 import com.sparta.uglymarket.user.dto.LoginRequest;
 import com.sparta.uglymarket.user.dto.LoginResponse;
 import com.sparta.uglymarket.user.entity.User;
-import com.sparta.uglymarket.user.service.UserLoginService;
 import com.sparta.uglymarket.util.FinderService;
 import com.sparta.uglymarket.util.JwtUtil;
 import com.sparta.uglymarket.util.PasswordEncoderUtil;
