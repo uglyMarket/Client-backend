@@ -3,9 +3,9 @@ package com.sparta.uglymarket.user.service;
 import com.sparta.uglymarket.user.dto.LoginRequest;
 import com.sparta.uglymarket.user.dto.LoginResponse;
 import com.sparta.uglymarket.user.entity.User;
+import com.sparta.uglymarket.util.FinderService;
 import com.sparta.uglymarket.util.JwtUtil;
 import com.sparta.uglymarket.util.PasswordEncoderUtil;
-import com.sparta.uglymarket.util.FinderService;
 import org.springframework.stereotype.Service;
 
 

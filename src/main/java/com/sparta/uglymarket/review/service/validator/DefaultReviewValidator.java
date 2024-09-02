@@ -1,11 +1,9 @@
-package com.sparta.uglymarket.review.service.validator.impl;
+package com.sparta.uglymarket.review.service.validator;
 
 import com.sparta.uglymarket.exception.CustomException;
 import com.sparta.uglymarket.exception.ErrorMsg;
 import com.sparta.uglymarket.order.entity.Orders;
-import com.sparta.uglymarket.review.dto.ReviewCreateRequest;
 import com.sparta.uglymarket.review.entity.Review;
-import com.sparta.uglymarket.review.service.validator.ReviewValidator;
 import com.sparta.uglymarket.user.entity.User;
 import org.springframework.stereotype.Component;
 

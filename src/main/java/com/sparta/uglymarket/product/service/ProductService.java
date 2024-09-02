@@ -7,7 +7,6 @@ import com.sparta.uglymarket.product.dto.ProductResponse;
 import com.sparta.uglymarket.product.entity.Product;
 import com.sparta.uglymarket.product.repository.ProductRepository;
 import com.sparta.uglymarket.review.dto.ReviewResponse;
-import com.sparta.uglymarket.review.entity.Review;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
