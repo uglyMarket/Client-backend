@@ -62,9 +62,18 @@ class ReviewServiceTest {
 
         // 목 객체 생성
         User user = mock(User.class);
-        Orders order = mock(Orders.class);
+        given(user.getId()).willReturn(1L);
+
         Product product = mock(Product.class);
+        given(product.getId()).willReturn(1L);
+
+        Orders order = mock(Orders.class);
+        given(order.getId()).willReturn(1L);
+        given(order.getUser()).willReturn(user);
+        given(order.getProduct()).willReturn(product);
+
         Review review = new Review(request, order, product);
+
         ReviewCreateResponse responseDto = new ReviewCreateResponse(review);
 
         // 목 객체 설정
@@ -80,8 +89,11 @@ class ReviewServiceTest {
 
         // then (response 검증)
         assertNotNull(response);
+        assertEquals(review.getId(), response.getId());
         assertEquals(request.getContent(), response.getContent());
         assertEquals(request.getReviewImage(), response.getReviewImage());
+        assertEquals(review.getOrders().getId(), response.getOrderId());
+        assertEquals(review.getProduct().getId(), response.getProductId());
         verify(validator, times(1)).validate(order, user); // 검증 로직이 호출되었는지 확인
         verify(reviewRepository, times(1)).save(any(Review.class));
         verify(dtoMapper, times(1)).toReviewCreateResponse(review);
