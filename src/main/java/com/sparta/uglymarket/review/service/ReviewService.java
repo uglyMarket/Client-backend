@@ -5,7 +5,7 @@ import com.sparta.uglymarket.product.entity.Product;
 import com.sparta.uglymarket.review.dto.*;
 import com.sparta.uglymarket.review.entity.Review;
 import com.sparta.uglymarket.review.repository.ReviewRepository;
-import com.sparta.uglymarket.review.service.validator.ReviewValidator;
+import com.sparta.uglymarket.validator.Validator;
 import com.sparta.uglymarket.user.entity.User;
 import com.sparta.uglymarket.util.FinderService;
 import org.springframework.stereotype.Service;
@@ -17,14 +17,14 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
 
-    private final ReviewValidator reviewValidator;
+    private final Validator validator;
     private final DtoMapper dtoMapper;
     private final FinderService finderService;
 
 
-    public ReviewService(ReviewRepository reviewRepository, ReviewValidator reviewValidator, DtoMapper dtoMapper, FinderService finderService) {
+    public ReviewService(ReviewRepository reviewRepository, Validator validator, DtoMapper dtoMapper, FinderService finderService) {
         this.reviewRepository = reviewRepository;
-        this.reviewValidator = reviewValidator;
+        this.validator = validator;
         this.dtoMapper = dtoMapper;
         this.finderService = finderService;
 
@@ -44,7 +44,7 @@ public class ReviewService {
         Product product = finderService.findProductById(request.getProductId());
 
         //검증 로직 사용 (주문의 유저아이디와, 토큰에서 가져온 유저의 아이디가 같은지 검증)
-        reviewValidator.validate(orders, user);
+        validator.validate(orders, user);
 
         // 후기 생성
         Review review = new Review(request, orders, product);
@@ -64,7 +64,7 @@ public class ReviewService {
         Review review = finderService.findReviewById(reviewId);
 
         //검증 로직 호출 (리뷰의 유저 아이디와, 토큰에서 가져온 유저 아이디가 같은지 검증)
-        reviewValidator.validateDeleteReview(user, review);
+        validator.validateDeleteReview(user, review);
 
         Orders order = review.getOrders();
         order.unmarkAsReviewed(); // 리뷰 삭제 시 주문의 reviewed 필드를 false로 설정
