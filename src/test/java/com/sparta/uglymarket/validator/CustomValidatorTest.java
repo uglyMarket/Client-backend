@@ -13,13 +13,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
-class DefaultValidatorTest {
+class CustomValidatorTest {
 
-    private DefaultValidator reviewValidator;
+    private CustomValidator reviewValidator;
 
     @BeforeEach
     void setUp() {
-        reviewValidator = new DefaultValidator();
+        reviewValidator = new CustomValidator();
     }
 
     //주문의 유저아이디와, 토큰에서 가져온 유저의 아이디가 같은지 검증

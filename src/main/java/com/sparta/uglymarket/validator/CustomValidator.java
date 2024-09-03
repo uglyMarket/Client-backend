@@ -8,7 +8,7 @@ import com.sparta.uglymarket.user.entity.User;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DefaultValidator implements Validator {
+public class CustomValidator implements Validator {
 
     //주문의 유저아이디와, 토큰에서 가져온 유저의 아이디가 같은지 검증
     @Override
