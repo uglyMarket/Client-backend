@@ -1,11 +1,10 @@
-package com.sparta.uglymarket.review.service.validator;
+package com.sparta.uglymarket.validator;
 
 import com.sparta.uglymarket.exception.CustomException;
 import com.sparta.uglymarket.exception.ErrorMsg;
 import com.sparta.uglymarket.order.entity.Orders;
 import com.sparta.uglymarket.review.entity.Review;
 import com.sparta.uglymarket.user.entity.User;
-import com.sparta.uglymarket.validator.DefaultValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
