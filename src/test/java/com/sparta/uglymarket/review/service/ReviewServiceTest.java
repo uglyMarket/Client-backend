@@ -5,7 +5,7 @@ import com.sparta.uglymarket.product.entity.Product;
 import com.sparta.uglymarket.review.dto.*;
 import com.sparta.uglymarket.review.entity.Review;
 import com.sparta.uglymarket.review.repository.ReviewRepository;
-import com.sparta.uglymarket.review.service.validator.ReviewValidator;
+import com.sparta.uglymarket.validator.Validator;
 import com.sparta.uglymarket.user.entity.User;
 import com.sparta.uglymarket.util.FinderService;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +29,7 @@ class ReviewServiceTest {
     private ReviewRepository reviewRepository;
 
     @Mock
-    private ReviewValidator reviewValidator;
+    private Validator validator;
 
     @Mock
     private FinderService finderService;
@@ -82,7 +82,7 @@ class ReviewServiceTest {
         assertNotNull(response);
         assertEquals(request.getContent(), response.getContent());
         assertEquals(request.getReviewImage(), response.getReviewImage());
-        verify(reviewValidator, times(1)).validate(order, user); // 검증 로직이 호출되었는지 확인
+        verify(validator, times(1)).validate(order, user); // 검증 로직이 호출되었는지 확인
         verify(reviewRepository, times(1)).save(any(Review.class));
         verify(dtoMapper, times(1)).toReviewCreateResponse(review);
     }
@@ -113,7 +113,7 @@ class ReviewServiceTest {
         ReviewDeleteResponse response = reviewService.deleteReview(reviewId, phoneNumber);
 
         // then
-        verify(reviewValidator, times(1)).validateDeleteReview(user, review);
+        verify(validator, times(1)).validateDeleteReview(user, review);
         verify(reviewRepository, times(1)).delete(review);
         verify(order, times(1)).unmarkAsReviewed();
         verify(dtoMapper, times(1)).toReviewDeleteResponse(review.getId());  // DTO 매핑이 제대로 이루어졌는지 검증

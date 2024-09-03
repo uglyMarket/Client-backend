@@ -1,4 +1,4 @@
-package com.sparta.uglymarket.review.service.validator;
+package com.sparta.uglymarket.validator;
 
 import com.sparta.uglymarket.order.entity.Orders;
 import com.sparta.uglymarket.review.entity.Review;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public interface ReviewValidator {
+public interface Validator {
 
     void validate(Orders orders, User user);
 
