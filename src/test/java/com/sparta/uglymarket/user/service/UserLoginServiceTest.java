@@ -9,6 +9,7 @@ import com.sparta.uglymarket.util.FinderService;
 import com.sparta.uglymarket.util.JwtUtil;
 import com.sparta.uglymarket.util.PasswordEncoderUtil;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -42,6 +43,7 @@ class UserLoginServiceTest {
 
     // 로그인 테스트
     @Test
+    @DisplayName("로그인 성공")
     void loginUser() {
         // given
         String phoneNumber = "123456789";
@@ -77,6 +79,7 @@ class UserLoginServiceTest {
 
     // 잘못된 비밀번호로 로그인 시 예외 발생 테스트
     @Test
+    @DisplayName("잘못된 비밀번호로 로그인 시 예외 발생")
     void loginUser_InvalidPassword() {
         // given
         String phoneNumber = "123456789";
