@@ -3,6 +3,7 @@ package com.sparta.uglymarket.user.service;
 import com.sparta.uglymarket.exception.CustomException;
 import com.sparta.uglymarket.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -28,6 +29,7 @@ class PhoneNumberValidatorServiceTest {
 
     //전화번호 중복
     @Test
+    @DisplayName("전화번호 중복")
     void validatePhoneNumber_PhoneNumberExists_ShouldThrowException() {
         // given
         String phoneNumber = "123456789";
@@ -44,6 +46,7 @@ class PhoneNumberValidatorServiceTest {
 
     //전화번호 중복이 아닐때
     @Test
+    @DisplayName("전화번호 중복이 아닐때")
     void validatePhoneNumber_PhoneNumberDoesNotExist_ShouldNotThrowException() {
         // given
         String phoneNumber = "123456789";

@@ -9,6 +9,7 @@ import com.sparta.uglymarket.user.entity.User;
 import com.sparta.uglymarket.user.repository.UserRepository;
 import com.sparta.uglymarket.util.PasswordEncoderUtil;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -39,6 +40,7 @@ class UserJoinServiceTest {
     }
 
     @Test
+    @DisplayName("회원가입 성공")
     void joinUser_Success() {
         // given
         String nickname = "testuser";
@@ -82,6 +84,7 @@ class UserJoinServiceTest {
 
     // 중복 전화번호로 회원가입 시 예외 발생 테스트
     @Test
+    @DisplayName("중복 전화번호로 회원가입 시 예외 발생")
     void joinUser_DuplicatePhoneNumber() {
         // given
         String phoneNumber = "123456789";
