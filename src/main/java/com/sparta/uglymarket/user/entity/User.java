@@ -1,6 +1,5 @@
 package com.sparta.uglymarket.user.entity;
 
-import com.sparta.uglymarket.address.entity.Address;
 import com.sparta.uglymarket.enums.Role;
 import com.sparta.uglymarket.order.entity.Orders;
 import com.sparta.uglymarket.user.dto.JoinRequest;
@@ -27,9 +26,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "user")
-    private List<Address> addresses;
-
+    //
     @OneToMany(mappedBy = "user")
     private List<Orders> orders;
 

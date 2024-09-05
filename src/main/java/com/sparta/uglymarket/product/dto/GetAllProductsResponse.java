@@ -12,7 +12,7 @@ public class GetAllProductsResponse {
     private String image;
     private String deliveryType;
     private String price;
-    private boolean isUgly;
+    private boolean ugly;
 
     public GetAllProductsResponse(Product product) {
         this.id = product.getId();
@@ -21,6 +21,6 @@ public class GetAllProductsResponse {
         this.image = product.getImage();
         this.deliveryType = product.getDeliveryType();
         this.price = product.getPrice();
-        this.isUgly = product.isUgly();
+        this.ugly = product.isUgly();
     }
 }
