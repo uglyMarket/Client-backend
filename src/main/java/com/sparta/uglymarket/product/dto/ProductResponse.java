@@ -14,7 +14,7 @@ public class ProductResponse {
     private String image;
     private String deliveryType;
     private String price;
-    private boolean isUgly;
+    private boolean ugly;
     private List<ReviewResponse> reviews;
 
     public ProductResponse(Product product, List<ReviewResponse> reviews) {
@@ -24,7 +24,7 @@ public class ProductResponse {
         this.image = product.getImage();
         this.deliveryType = product.getDeliveryType();
         this.price = product.getPrice();
-        this.isUgly = product.isUgly();
+        this.ugly = product.isUgly();
         this.reviews = reviews;
     }
 }

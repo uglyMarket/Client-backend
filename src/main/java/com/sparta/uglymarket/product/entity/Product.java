@@ -20,8 +20,8 @@ public class Product {
     private String deliveryType;
     private String price;
 
-    @Column(nullable = false) // isUgly 필드는 nullable = false 추가
-    private boolean isUgly;
+    @Column(nullable = false) // ugly 필드는 nullable = false 추가
+    private boolean ugly;
 
     @OneToMany(mappedBy = "product")
     private List<Review> reviews;
