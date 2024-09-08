@@ -48,6 +48,9 @@ public class ReviewService {
 
         // 후기 생성
         Review review = new Review(request, orders, product);
+
+        orders.markAsReviewed(); // 주문의 상태를 서비스 계층에서 변경
+
         Review savedReview = reviewRepository.save(review);
 
         //dto로 변환 후 반환
