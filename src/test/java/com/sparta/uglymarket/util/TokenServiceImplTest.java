@@ -79,4 +79,35 @@ class TokenServiceImplTest {
         verify(request, times(1)).getHeader("Authorization");
         verify(jwtUtil, times(1)).getPhoneNumberFromToken("validJwtToken");
     }
+
+    @Test
+    @DisplayName("Authorization 헤더가 없는 경우 처리")
+    void getPhoneNumberFromRequest_NoAuthorizationHeader() {
+        // given
+        when(request.getHeader("Authorization")).thenReturn(null);
+
+        // when
+        String extractedPhoneNumber = tokenService.getPhoneNumberFromRequest(request);
+
+        // then
+        assertThat(extractedPhoneNumber).isNull();
+        verify(request, times(1)).getHeader("Authorization");
+        verify(jwtUtil, never()).getPhoneNumberFromToken(anyString());
+    }
+
+
+    @Test
+    @DisplayName("Authorization 헤더가 Bearer로 시작하지 않는 경우 처리")
+    void getPhoneNumberFromRequest_InvalidAuthorizationHeader() {
+        // given
+        when(request.getHeader("Authorization")).thenReturn("InvalidToken");
+
+        // when
+        String extractedPhoneNumber = tokenService.getPhoneNumberFromRequest(request);
+
+        // then
+        assertThat(extractedPhoneNumber).isNull();
+        verify(request, times(1)).getHeader("Authorization");
+        verify(jwtUtil, never()).getPhoneNumberFromToken(anyString());
+    }
 }
