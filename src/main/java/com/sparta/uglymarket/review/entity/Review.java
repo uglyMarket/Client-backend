@@ -33,7 +33,5 @@ public class Review {
         this.reviewImage = request.getReviewImage();
         this.orders = orders;
         this.product = product;
-        orders.markAsReviewed();// 리뷰 작성 시 주문의 reviewed 필드를 true로 설정
-
     }
 }
