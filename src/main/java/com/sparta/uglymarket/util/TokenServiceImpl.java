@@ -16,6 +16,10 @@ public class TokenServiceImpl implements TokenService{
     @Override
     public String getPhoneNumberFromRequest(HttpServletRequest request) {
         String header = request.getHeader("Authorization");
+        if (header == null || !header.startsWith("Bearer ")) {
+            return null;  // 헤더가 없거나 Bearer 토큰이 아닐 경우 null 반환
+        }
+
         String token = header.substring(7);
         return jwtUtil.getPhoneNumberFromToken(token);
     }
