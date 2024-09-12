@@ -2,7 +2,7 @@ package com.sparta.uglymarket.review.entity;
 
 import com.sparta.uglymarket.order.entity.Orders;
 import com.sparta.uglymarket.product.entity.Product;
-import com.sparta.uglymarket.review.dto.ReviewCreateRequest;
+import com.sparta.uglymarket.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,11 +27,16 @@ public class Review {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public Review(ReviewCreateRequest request, Orders orders, Product product) {
-        this.content = request.getContent();
-        this.reviewImage = request.getReviewImage();
+
+    public Review(String content, String reviewImage, Orders orders, Product product, User user) {
+        this.content = content;
+        this.reviewImage = reviewImage;
         this.orders = orders;
         this.product = product;
+        this.user = user;
     }
 }
