@@ -1,7 +1,5 @@
 package com.sparta.uglymarket.product.dto;
 
-import com.sparta.uglymarket.product.entity.Product;
-import com.sparta.uglymarket.review.dto.ReviewResponse;
 import lombok.Getter;
 
 import java.util.List;
@@ -15,16 +13,16 @@ public class ProductResponse {
     private String deliveryType;
     private String price;
     private boolean ugly;
-    private List<ReviewResponse> reviews;
+    private List<Long> reviewIds;
 
-    public ProductResponse(Product product, List<ReviewResponse> reviews) {
-        this.id = product.getId();
-        this.title = product.getTitle();
-        this.content = product.getContent();
-        this.image = product.getImage();
-        this.deliveryType = product.getDeliveryType();
-        this.price = product.getPrice();
-        this.ugly = product.isUgly();
-        this.reviews = reviews;
+    public ProductResponse(Long id, String title, String content, String image, String deliveryType, String price, boolean ugly, List<Long> reviewIds) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.image = image;
+        this.deliveryType = deliveryType;
+        this.price = price;
+        this.ugly = ugly;
+        this.reviewIds = reviewIds;
     }
 }

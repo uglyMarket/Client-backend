@@ -1,7 +1,9 @@
 package com.sparta.uglymarket.product.controller;
 
+import com.sparta.uglymarket.product.domain.ProductDomain;
 import com.sparta.uglymarket.product.dto.GetAllProductsResponse;
 import com.sparta.uglymarket.product.dto.ProductResponse;
+import com.sparta.uglymarket.product.mapper.ProductMapper;
 import com.sparta.uglymarket.product.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,15 +29,28 @@ public class ProductController {
     // 전체 상품 목록 조회
     @GetMapping
     public ResponseEntity<List<GetAllProductsResponse>> getAllProducts() {
-        List<GetAllProductsResponse> products = productService.getAllProducts();
-        return new ResponseEntity<>(products, HttpStatus.OK);
+
+        // 서비스에서 도메인 리스트를 가져옴
+        List<ProductDomain> productDomains = productService.getAllProducts();
+
+        // 도메인 리스트 -> DTO 리스트 변환 (ProductMapper 사용)
+        List<GetAllProductsResponse> responseList = ProductMapper.toGetAllProductsResponseList(productDomains);
+
+
+        return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 
-    //특정 상품 조회
+    // 특정 상품 조회
     @GetMapping("/{productId}")
     public ResponseEntity<ProductResponse> getProductByID(@PathVariable long productId) {
-        ProductResponse product = productService.getProductById(productId);
-        return new ResponseEntity<>(product, HttpStatus.OK);
+
+        // 서비스에서 도메인 객체를 가져오기
+        ProductDomain productDomain = productService.getProductById(productId);
+
+        // 도메인 -> DTO 변환 (ProductMapper 사용)
+        ProductResponse response = ProductMapper.toProductResponse(productDomain);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

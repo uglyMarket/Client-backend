@@ -1,6 +1,5 @@
 package com.sparta.uglymarket.product.dto;
 
-import com.sparta.uglymarket.product.entity.Product;
 import lombok.Getter;
 
 @Getter
@@ -14,13 +13,13 @@ public class GetAllProductsResponse {
     private String price;
     private boolean ugly;
 
-    public GetAllProductsResponse(Product product) {
-        this.id = product.getId();
-        this.title = product.getTitle();
-        this.content = product.getContent();
-        this.image = product.getImage();
-        this.deliveryType = product.getDeliveryType();
-        this.price = product.getPrice();
-        this.ugly = product.isUgly();
+    public GetAllProductsResponse(Long id, String title, String content, String image, String deliveryType, String price, boolean ugly) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.image = image;
+        this.deliveryType = deliveryType;
+        this.price = price;
+        this.ugly = ugly;
     }
 }
