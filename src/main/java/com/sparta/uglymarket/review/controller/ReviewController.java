@@ -1,6 +1,8 @@
 package com.sparta.uglymarket.review.controller;
 
+import com.sparta.uglymarket.review.domain.ReviewDomain;
 import com.sparta.uglymarket.review.dto.*;
+import com.sparta.uglymarket.review.mapper.ReviewMapper;
 import com.sparta.uglymarket.review.service.ReviewService;
 import com.sparta.uglymarket.util.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,12 +28,19 @@ public class ReviewController {
     // 후기 등록
     @PostMapping
     public ResponseEntity<ReviewCreateResponse> createReview(@RequestBody ReviewCreateRequest request, HttpServletRequest httpRequest) {
-        String phoneNumber = tokenService.getPhoneNumberFromRequest(httpRequest);//헤더에서 폰번호 찾기
-        if (phoneNumber == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
 
-        ReviewCreateResponse response = reviewService.createReview(request, phoneNumber);
+        // 헤더에서 폰 번호 추출
+        String phoneNumber = tokenService.getPhoneNumberFromRequest(httpRequest);
+
+        // DTO -> Domain 변환 (ReviewMapper 사용)
+        ReviewDomain reviewDomain = ReviewMapper.toDomain(request);
+
+        // 서비스에 도메인 객체 전달하여 처리
+        ReviewDomain createdReview = reviewService.createReview(reviewDomain, phoneNumber);
+
+        // Domain -> DTO 변환 후 응답 반환
+        ReviewCreateResponse response = ReviewMapper.toCreateResponse(createdReview);
+
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
@@ -39,26 +48,36 @@ public class ReviewController {
     @DeleteMapping("/delete/{reviewId}")
     public ResponseEntity<ReviewDeleteResponse> deleteReview(@PathVariable Long reviewId, HttpServletRequest httpRequest) {
         String phoneNumber = tokenService.getPhoneNumberFromRequest(httpRequest);
-        if (phoneNumber == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
 
+        // 서비스에 도메인 객체 전달하여 처리
         reviewService.deleteReview(reviewId, phoneNumber);
-        return new ResponseEntity<>(new ReviewDeleteResponse(reviewId), HttpStatus.NO_CONTENT);
+
+        // 응답 반환
+        ReviewDeleteResponse response = new ReviewDeleteResponse(reviewId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // 특정 후기 조회
     @GetMapping("/{reviewId}")
     public ResponseEntity<ReviewGetResponse> getReviewById(@PathVariable Long reviewId) {
-        ReviewGetResponse response = reviewService.getReviewById(reviewId);
+        // 서비스에서 도메인 객체를 가져오기
+        ReviewDomain reviewDomain = reviewService.getReviewById(reviewId);
+
+        // Domain -> DTO 변환 후 응답 반환
+        ReviewGetResponse response = ReviewMapper.toGetResponse(reviewDomain);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // 특정 상품의 전체 후기 목록 조회
     @GetMapping("/product/{productId}")
     public ResponseEntity<List<ReviewListByProductResponse>> getAllReviewsByProductId(@PathVariable Long productId) {
-        List<ReviewListByProductResponse> reviews = reviewService.getAllReviewsByProductId(productId);
-        return new ResponseEntity<>(reviews, HttpStatus.OK);
+
+        // 서비스에서 도메인 객체 리스트를 가져오기
+        List<ReviewDomain> reviewDomains = reviewService.getAllReviewsByProductId(productId);
+
+        // Domain 리스트 -> DTO 리스트 변환 후 응답 반환
+        List<ReviewListByProductResponse> responseList = ReviewMapper.toListByProductResponse(reviewDomains);
+        return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 
 }

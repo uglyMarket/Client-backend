@@ -1,6 +1,5 @@
 package com.sparta.uglymarket.review.dto;
 
-import com.sparta.uglymarket.review.entity.Review;
 import lombok.Getter;
 
 @Getter
@@ -13,11 +12,11 @@ public class ReviewCreateResponse {
     private Long productId;
 
 
-    public ReviewCreateResponse(Review review) {
-        this.id = review.getId();
-        this.content = review.getContent();
-        this.reviewImage = review.getReviewImage();
-        this.orderId = review.getOrders().getId();
-        this.productId = review.getProduct().getId();
+    public ReviewCreateResponse(Long id, String content, String reviewImage, Long orderId, Long productId) {
+        this.id = id;
+        this.content = content;
+        this.reviewImage = reviewImage;
+        this.orderId = orderId;
+        this.productId = productId;
     }
 }
