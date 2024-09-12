@@ -1,6 +1,5 @@
 package com.sparta.uglymarket.user.dto;
 
-import com.sparta.uglymarket.user.entity.User;
 import lombok.Getter;
 
 @Getter
@@ -11,11 +10,11 @@ public class JoinResponse {
     private String profileImageUrl;
     private String role;
 
-    public JoinResponse(User savedUser) {
-        this.id = savedUser.getId();
-        this.nickname = savedUser.getNickname();
-        this.phoneNumber = savedUser.getPhoneNumber();
-        this.profileImageUrl = savedUser.getProfileImageUrl();
-        this.role = savedUser.getRole().name();
+    public JoinResponse(Long id, String nickname, String phoneNumber, String profileImageUrl, String role) {
+        this.id = id;
+        this.nickname = nickname;
+        this.phoneNumber = phoneNumber;
+        this.profileImageUrl = profileImageUrl;
+        this.role = role;
     }
 }

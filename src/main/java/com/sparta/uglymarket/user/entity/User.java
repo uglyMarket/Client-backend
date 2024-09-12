@@ -2,7 +2,6 @@ package com.sparta.uglymarket.user.entity;
 
 import com.sparta.uglymarket.enums.Role;
 import com.sparta.uglymarket.order.entity.Orders;
-import com.sparta.uglymarket.user.dto.JoinRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,16 +25,17 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    //g
     @OneToMany(mappedBy = "user")
     private List<Orders> orders;
 
 
-    public User(JoinRequest request, String encodedPassword, Role role) {
-        this.nickname = request.getNickname();
-        this.password = encodedPassword;
-        this.phoneNumber = request.getPhoneNumber();
-        this.profileImageUrl = request.getProfileImageUrl();
+    public User(Long id, String nickname, String password, String phoneNumber, String profileImageUrl, Role role, List<Orders> orders) {
+        this.id = id;
+        this.nickname = nickname;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.profileImageUrl = profileImageUrl;
         this.role = role;
+        this.orders = orders;
     }
 }

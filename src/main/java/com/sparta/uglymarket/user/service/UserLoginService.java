@@ -1,11 +1,12 @@
 package com.sparta.uglymarket.user.service;
 
-import com.sparta.uglymarket.user.dto.LoginRequest;
-import com.sparta.uglymarket.user.dto.LoginResponse;
+import com.sparta.uglymarket.exception.CustomException;
+import com.sparta.uglymarket.exception.ErrorMsg;
+import com.sparta.uglymarket.user.domain.UserDomain;
+import com.sparta.uglymarket.user.domain.UserDomainService;
 import com.sparta.uglymarket.user.entity.User;
 import com.sparta.uglymarket.util.FinderService;
 import com.sparta.uglymarket.util.JwtUtil;
-import com.sparta.uglymarket.util.PasswordEncoderUtil;
 import org.springframework.stereotype.Service;
 
 
@@ -13,29 +14,34 @@ import org.springframework.stereotype.Service;
 public class UserLoginService {
 
     private final FinderService finderService;
-    private final PasswordEncoderUtil passwordEncoderUtil;
+    private final UserDomainService userDomainService;
     private final JwtUtil jwtUtil;
 
-    public UserLoginService(FinderService finderService, PasswordEncoderUtil passwordEncoderUtil, JwtUtil jwtUtil) {
+    public UserLoginService(FinderService finderService, UserDomainService userDomainService, JwtUtil jwtUtil) {
         this.finderService = finderService;
-        this.passwordEncoderUtil = passwordEncoderUtil;
+        this.userDomainService = userDomainService;
         this.jwtUtil = jwtUtil;
     }
 
-
     //로그인 메서드
-    public LoginResponse loginUser(LoginRequest request) {
-        //전화번호(아이디) 확인
-        User user = finderService.findUserByPhoneNumber(request.getPhoneNumber());
+    public UserDomain loginUser(UserDomain userDomain) {
 
-        //비밀번호 확인
-        passwordEncoderUtil.validatePassword(request.getPassword(), user.getPassword());
+        //전화번호(아이디)로 사용자 조회
+        User user = finderService.findUserByPhoneNumber(userDomain.getPhoneNumber());
+
+        // 비밀번호 확인 (도메인 서비스에서 처리)
+        if (!userDomainService.validatePassword(userDomain, user.getPassword())) {
+            throw new CustomException(ErrorMsg.PASSWORD_INCORRECT);
+        }
 
         //토큰 생성하기
-        String token = jwtUtil.generateToken(user.getPhoneNumber()); //핸드폰 번호를 주제로 토큰생성
+        String token = jwtUtil.generateToken(userDomain.getPhoneNumber());
 
-        //DTO에 담아 토큰 반환하기
-        return new LoginResponse(token);
+        userDomain.token(token);
+
+
+        // 토큰을 반환할 응답 객체에서 처리
+        return userDomain;
     }
 
 }
